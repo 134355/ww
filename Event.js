@@ -1,7 +1,7 @@
 let events = {}
 let instance = null
 
-function isArray (eventName) {
+function returnActives (eventName) {
   let actives = events[eventName]
   if (Array.isArray(actives)) {
     return actives
@@ -11,15 +11,15 @@ function isArray (eventName) {
 
 class Event {
   on (eventName, callback) {
-    isArray(eventName).push(callback)
+    returnActives(eventName).push(callback)
   }
   emit (eventName, param) {
-    isArray(eventName).forEach(callback => {
+    returnActives(eventName).forEach(callback => {
       callback(param)
     })
   }
   off (eventName, callback) {
-    let actives = isArray(eventName)
+    let actives = returnActives(eventName)
     if (typeof (callback) === 'function') {
       for (let i = 0; i < actives.length; i++) {
         if (actives[i] === callback) {

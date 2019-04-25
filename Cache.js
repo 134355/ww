@@ -8,6 +8,7 @@ class CacheCell {
 
 let cacheMap =  new Map()
 let instance = null
+let timeoutDefault = 1200
 
 function isTimeout (name) {
   const data = cacheMap.get(name)
@@ -22,7 +23,7 @@ function isTimeout (name) {
 }
 
 class Cache {
-  set (name, data, timeout = 1200) {
+  set (name, data, timeout = timeoutDefault) {
     const cachecell = new CacheCell(data, timeout)
     return cacheMap.set(name, cachecell)
   }
@@ -37,6 +38,12 @@ class Cache {
   }
   clear () {
     return cacheMap.clear()
+  }
+  setTimeoutDefault (num) {
+    if (timeoutDefault === 1200) {
+      return timeoutDefault = num
+    }
+    throw Error('缓存器只能设置一次默认过期时间')
   }
 }
 
